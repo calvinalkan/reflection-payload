@@ -351,7 +351,7 @@
                     $matching_types = true;
                 }
 
-                if ( interface_exists($constructor_type) && in_array($constructor_type, class_implements($payload_type))) {
+                if ( interface_exists($constructor_type) && class_exists($payload_type) && in_array($constructor_type, class_implements($payload_type))) {
 
                     $matching_types = true;
 
