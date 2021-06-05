@@ -190,6 +190,14 @@
 
         }
 
+        /** @test */
+        public function it_works_with_inheritance () {
+
+            $payload = new ReflectionPayload(WithInheritance::class , [ $bar = new Bar() ] );
+            $this->assertSame(['bar' => $bar], $payload->build());
+
+        }
+
         /**
          * @test
          *
@@ -477,7 +485,11 @@
 
     }
 
-    class Bar {
+    class BarParent {
+
+    }
+
+    class Bar extends BarParent {
 
         public $foo = 'foo';
 
@@ -496,6 +508,14 @@
     class WithInterface {
 
         public function __construct(FooInterface $foo )
+        {
+        }
+
+    }
+
+    class WithInheritance {
+
+        public function __construct(BarParent $bar )
         {
         }
 

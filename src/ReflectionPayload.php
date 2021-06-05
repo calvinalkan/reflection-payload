@@ -89,7 +89,7 @@
         public function build() : array
         {
 
-            if ( ! $this->reflection_constructor || $this->reflection_constructor->getParameters() === [] ) {
+            if ( ! $this->reflection_constructor || $this->reflection_constructor->getParameters() === []) {
                 return [];
             }
 
@@ -123,7 +123,7 @@
 
             }
 
-            if ( $include->isNotEmpty() ) {
+            if ($include->isNotEmpty()) {
 
                 $only_params_with_typehint = $this->constructor_types_by_name->only($include->values());
 
@@ -208,7 +208,7 @@
 
             }
 
-            if ( ($count = $parameter_names->count()) < $payload->count()) {
+            if (($count = $parameter_names->count()) < $payload->count()) {
 
                 $payload = $payload->slice(0, $count);
 
@@ -304,13 +304,25 @@
             $payload_value = arrFirstEl($payload_type_and_value);
             $constructor_param_name = arrPullByValueReturnKey($payload_type, $constructor_name_and_type);
 
-            if ( ! $constructor_param_name && class_exists($payload_type) ) {
+            if ( ! $constructor_param_name && class_exists($payload_type)) {
 
                 foreach ($interfaces = class_implements($payload_type) as $interface) {
 
                     $constructor_param_name = arrPullByValueReturnKey($interface, $constructor_name_and_type);
 
                 }
+
+
+            }
+
+            if ( ! $constructor_param_name && class_exists($payload_type)) {
+
+                foreach ($parents = class_parents($payload_type) as $parent) {
+
+                    $constructor_param_name = arrPullByValueReturnKey($parent, $constructor_name_and_type);
+
+                }
+
 
             }
 
@@ -346,12 +358,18 @@
 
                 $matching_types = false;
 
-                if ( $constructor_type === $payload_type ) {
+                if ($constructor_type === $payload_type) {
 
                     $matching_types = true;
                 }
 
-                if ( interface_exists($constructor_type) && class_exists($payload_type) && in_array($constructor_type, class_implements($payload_type))) {
+                if (interface_exists($constructor_type) && class_exists($payload_type) && in_array($constructor_type, class_implements($payload_type))) {
+
+                    $matching_types = true;
+
+                }
+
+                if (class_exists($constructor_type) && is_a($payload_type, $constructor_type, true)) {
 
                     $matching_types = true;
 
