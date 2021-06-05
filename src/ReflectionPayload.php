@@ -310,6 +310,10 @@
 
                     $constructor_param_name = arrPullByValueReturnKey($interface, $constructor_name_and_type);
 
+                    if ( $constructor_param_name !== null ) {
+                        break;
+                    }
+
                 }
 
 
@@ -320,6 +324,10 @@
                 foreach ($parents = class_parents($payload_type) as $parent) {
 
                     $constructor_param_name = arrPullByValueReturnKey($parent, $constructor_name_and_type);
+
+                    if ( $constructor_param_name !== null ) {
+                        break;
+                    }
 
                 }
 
