@@ -49,7 +49,7 @@
 
             $index = array_search($value, $array, true);
 
-            if ( ! $index) {
+            if ( ! $index ) {
 
                 return null;
 

@@ -304,6 +304,16 @@
             $payload_value = arrFirstEl($payload_type_and_value);
             $constructor_param_name = arrPullByValueReturnKey($payload_type, $constructor_name_and_type);
 
+            if ( ! $constructor_param_name && class_exists($payload_type) ) {
+
+                foreach ($interfaces = class_implements($payload_type) as $interface) {
+
+                    $constructor_param_name = arrPullByValueReturnKey($interface, $constructor_name_and_type);
+
+                }
+
+            }
+
             return [$constructor_param_name => $payload_value];
 
         }
@@ -334,7 +344,18 @@
 
                 $payload_type = arrFirstKey($type_and_value);
 
-                $matching_types = $constructor_type === $payload_type;
+                $matching_types = false;
+
+                if ( $constructor_type === $payload_type ) {
+
+                    $matching_types = true;
+                }
+
+                if ( interface_exists($constructor_type) && in_array($constructor_type, class_implements($payload_type))) {
+
+                    $matching_types = true;
+
+                }
 
                 if ($matching_types === true) {
 

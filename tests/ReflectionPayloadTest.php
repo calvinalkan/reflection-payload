@@ -182,6 +182,14 @@
 
         }
 
+        /** @test */
+        public function it_works_if_the_parameter_is_an_interface () {
+
+            $payload = new ReflectionPayload(WithInterface::class , [$foo = new Foo()]);
+            $this->assertSame(['foo' => $foo], $payload->build());
+
+        }
+
         /**
          * @test
          *
@@ -456,7 +464,8 @@
     }
 
 
-    class Foo {
+    class Foo implements FooInterface
+    {
 
         public $foo = 'foo';
 
@@ -476,6 +485,18 @@
 
             return $this->foo;
 
+        }
+
+    }
+
+    interface FooInterface {
+
+    }
+
+    class WithInterface {
+
+        public function __construct(FooInterface $foo )
+        {
         }
 
     }
