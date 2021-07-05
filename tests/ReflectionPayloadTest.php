@@ -165,6 +165,14 @@
         }
 
         /** @test */
+        public function it_works_with_integers () {
+
+            $payload = new ReflectionPayload(WithInteger::class, ['foo', 1]);
+            $this->assertSame(['param1' => 'foo', 'param2' => 1], $payload->build());
+
+        }
+
+        /** @test */
         public function it_works_with_boolean_false () {
 
             $payload = new ReflectionPayload(WithBool::class, [false]);
@@ -631,6 +639,15 @@
         }
 
     }
+
+    class WithInteger {
+
+        public function __construct( string $param1, int $param2)
+        {
+        }
+
+    }
+
 
     class WithDefaultValue {
 

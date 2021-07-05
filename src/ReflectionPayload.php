@@ -348,7 +348,15 @@
 
                     $type = ($type) ? $type->getName() : $param->getName();
 
-                    return ($type === 'bool') ? 'boolean' : $type;
+                    if ( $type === 'bool') {
+                        $type = 'boolean';
+                    }
+
+                    if ( $type === 'int') {
+                        $type = 'integer';
+                    }
+
+                    return $type;
 
                 });
 
